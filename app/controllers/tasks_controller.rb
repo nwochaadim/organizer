@@ -1,17 +1,20 @@
 class TasksController < ApplicationController
   before_action :require_login
-  before_action :set_task, only: %i[edit update destroy]
+  before_action :set_task, only: %i[edit show update destroy]
 
   def new
     @task = Task.new
   end
 
   def index
-    @tasks = Task.all
+    @q = Task.by_user(current_user).ransack(params[:q])
+    @tasks = @q.result
   end
 
+  def show; end
+
   def create
-    @task = Task.new(task_params)
+    @task = Task.new(task_params.merge(user_id: current_user.id))
 
     if @task.save
       redirect_to @task
@@ -39,5 +42,11 @@ class TasksController < ApplicationController
 
   def set_task
     @task = Task.find(params[:id])
+  end
+
+  def task_params
+    params
+      .require(:task)
+      .permit(:name, :notes, :starts_at, :completed_at)
   end
 end

@@ -1,1 +1,9 @@
 <h1>Add Task</h1>
+
+<%= simple_form_for @task do |f| %>
+  <%= f.input :name %>
+  <%= f.input :notes, as: :text %>
+  <%= f.input :starts_at %>
+
+  <%= f.submit 'Add Task' %>
+<% end %>
