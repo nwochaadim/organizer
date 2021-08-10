@@ -14,6 +14,7 @@
       <th><%= sort_link(@q, :notes, 'Notes') %></th>
       <th>Starts at</th>
       <th>Completed at</th>
+      <th>Actions</th>
     </tr>
 
     <tbody>
@@ -23,6 +24,10 @@
           <td><%= truncate(task.notes, length: 15) %></td>
           <td><%= task.starts_at %></td>
           <td><%= task.completed_at %></td>
+          <td>
+            <%= link_to 'Edit', task_path(task) %> |
+            <%= link_to 'Delete', task_path(task), data: { confirm: 'Are you sure you want to delete this task?' }, method: :delete %>
+          </td>
         </tr>
       <% end %>
     </tbody>

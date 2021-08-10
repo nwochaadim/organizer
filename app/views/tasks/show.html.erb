@@ -1,1 +1,3 @@
 <h1><%= @task.name %> Task</h1>
+
+<%= link_to 'Mark as Completed', task_path(id: @task, task: { completed_at: Time.now }), method: :put %>

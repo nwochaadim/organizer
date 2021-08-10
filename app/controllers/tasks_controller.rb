@@ -7,7 +7,7 @@ class TasksController < ApplicationController
   end
 
   def index
-    @q = Task.by_user(current_user).ransack(params[:q])
+    @q = current_user.tasks.ransack(params[:q])
     @tasks = @q.result
   end
 
@@ -27,7 +27,7 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to @task
+      redirect_to @task, notice: 'Task successfully updated!'
     else
       render 'edit'
     end
@@ -41,7 +41,7 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
   end
 
   def task_params
