@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :require_login
-  before_action :set_task, only: %i[edit show update destroy]
+  before_action :set_task, only: %i[show update destroy]
 
   def new
     @task = Task.new
@@ -23,8 +23,6 @@ class TasksController < ApplicationController
       render 'new'
     end
   end
-
-  def edit; end
 
   def update
     if @task.update(task_params)

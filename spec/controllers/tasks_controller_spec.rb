@@ -23,7 +23,7 @@ describe TasksController, type: :controller do
 
   describe '#create' do
     let(:params) do
-      { task: { notes: 'Some notes', name: 'New task', user_id: user.id, starts_at: Time.now } }
+      { task: { notes: 'Some notes', name: 'New task', starts_at: Time.now } }
     end
 
     context 'with valid params' do
@@ -42,7 +42,7 @@ describe TasksController, type: :controller do
 
     context 'with invalid params' do
       let(:params) do
-        { task: { notes: '', name: 'New task', user_id: user.id, starts_at: Time.now } }
+        { task: { notes: '', name: 'New task', starts_at: Time.now } }
       end
 
       it 'does not create the task' do
@@ -59,21 +59,13 @@ describe TasksController, type: :controller do
     end
   end
 
-  describe '#edit' do
-    it 'renders the edit template' do
-      task = create :task
-
-      get :edit, params: { id: task.id }
-
-      expect(response).to render_template('edit')
-    end
-  end
-
   describe '#update' do
     let(:task) { create :task, name: 'Test' }
 
     context 'with valid params' do
       it 'updates the task' do
+        create :task_membership, task: task, user: user
+
         expect {
           put :update, params: { id: task.id, task: { name: 'Updated Name' } }
         }.to change { task.reload.name }.to('Updated Name')
@@ -82,6 +74,8 @@ describe TasksController, type: :controller do
 
     context 'with invalid params' do
       it 'does not update the task' do
+        create :task_membership, task: task, user: user
+
         expect {
           put :update, params: { id: task.id, task: { name: '' } }
         }.to_not change { task.reload.name }
@@ -90,12 +84,22 @@ describe TasksController, type: :controller do
   end
 
   describe '#destroy' do
-    it 'soft deletes the task' do
+    let(:task) { create :task, name: 'Test' }
 
+    it 'soft deletes the task' do
+      create :task_membership, task: task, user: user
+
+      delete :destroy, params: { id: task.id }
+
+      expect(task.reload.deleted_at).to be_present
     end
 
     it 'redirects to the task index' do
+      create :task_membership, task: task, user: user
 
+      delete :destroy, params: { id: task.id }
+
+      expect(response).to redirect_to(tasks_path)
     end
   end
 end

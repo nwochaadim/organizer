@@ -2,7 +2,6 @@ FactoryBot.define do
   factory :task do
     name { 'Some Task' }
     notes { 'Some random notes' }
-    user
 
     trait :started do
       starts_at { Time.now }

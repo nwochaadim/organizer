@@ -1,10 +1,7 @@
 class TaskMembershipsController < ApplicationController
+  before_action :require_login
   before_action :set_task
   before_action :set_collaborators
-
-  def new
-    @membership = @task.task_memberships.new
-  end
 
   def create
     @membership = @task.task_memberships.new(membership_params)
