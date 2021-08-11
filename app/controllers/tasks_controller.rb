@@ -7,16 +7,17 @@ class TasksController < ApplicationController
   end
 
   def index
-    @q = current_user.tasks.ransack(params[:q])
+    @q = current_user.tasks.not_deleted.ransack(params[:q])
     @tasks = @q.result
   end
 
   def show; end
 
   def create
-    @task = Task.new(task_params.merge(user_id: current_user.id))
+    @task = current_user.tasks.new(task_params)
 
     if @task.save
+      @task.task_memberships.create(user_id: current_user.id)
       redirect_to @task
     else
       render 'new'
@@ -34,14 +35,14 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task.destroy
+    @task.soft_delete
     redirect_to tasks_path
   end
 
   private
 
   def set_task
-    @task = current_user.tasks.find(params[:id])
+    @task = current_user.tasks.not_deleted.find(params[:id])
   end
 
   def task_params

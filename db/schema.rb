@@ -10,17 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_09_021947) do
+ActiveRecord::Schema.define(version: 2021_08_10_092712) do
+
+  create_table "comments", force: :cascade do |t|
+    t.integer "task_id", null: false
+    t.integer "user_id", null: false
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_id"], name: "index_comments_on_task_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "task_memberships", force: :cascade do |t|
+    t.integer "task_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_id"], name: "index_task_memberships_on_task_id"
+    t.index ["user_id"], name: "index_task_memberships_on_user_id"
+  end
 
   create_table "tasks", force: :cascade do |t|
     t.string "name"
     t.text "notes"
-    t.integer "user_id", null: false
     t.datetime "starts_at"
     t.datetime "completed_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_tasks_on_user_id"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_tasks_on_deleted_at"
   end
 
   create_table "users", force: :cascade do |t|
@@ -35,5 +54,8 @@ ActiveRecord::Schema.define(version: 2021_08_09_021947) do
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
 
-  add_foreign_key "tasks", "users"
+  add_foreign_key "comments", "tasks"
+  add_foreign_key "comments", "users"
+  add_foreign_key "task_memberships", "tasks"
+  add_foreign_key "task_memberships", "users"
 end

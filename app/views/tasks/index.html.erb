@@ -1,4 +1,5 @@
 <h1>Tasks</h1>
+<%= link_to 'New Task', new_task_path %>
 
 <%= search_form_for @q do |f| %>
   <%= f.label :name_or_notes_cont, 'Search by name or description' %>
@@ -26,6 +27,7 @@
           <td><%= task.completed_at %></td>
           <td>
             <%= link_to 'Edit', task_path(task) %> |
+            <%= link_to 'Collaborate', new_task_task_membership_path(task) %> |
             <%= link_to 'Delete', task_path(task), data: { confirm: 'Are you sure you want to delete this task?' }, method: :delete %>
           </td>
         </tr>

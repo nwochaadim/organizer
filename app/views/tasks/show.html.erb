@@ -1,3 +1,14 @@
 <h1><%= @task.name %> Task</h1>
 
 <%= link_to 'Mark as Completed', task_path(id: @task, task: { completed_at: Time.now }), method: :put %>
+
+
+<h2>Comments</h2>
+
+<%= render @task.comments %><br/>
+
+<%= simple_form_for [@task, @task.comments.new] do |f| %>
+  <%= f.input  :body %>
+
+  <%= f.submit 'Add Comment' %>
+<% end %>

@@ -3,5 +3,6 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
-  has_many :tasks, dependent: :destroy
+  has_many :task_memberships
+  has_many :tasks, through: :task_memberships
 end
