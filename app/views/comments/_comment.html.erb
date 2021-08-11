@@ -3,7 +3,7 @@
     <a class='author'><%= comment.user.name %></a>
 
     <div class='metadata'>
-      <span class='date'><%= comment.created_at %></span>
+      <span class='date'><%= time_ago_in_words(comment.created_at) %></span>
     </div>
     <div class='text'>
       <%= comment.body %>

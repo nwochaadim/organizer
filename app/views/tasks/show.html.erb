@@ -1,46 +1,48 @@
-<div class='flex justify-center mb-10'>
-  <div class='ui piled segment w-1/2'>
-    <h4 class='ui header'><%= @task.name %></h4>
+<div data-controller='tasks'>
+  <div class='flex justify-center mb-10'>
+    <div class='ui piled segment w-1/2'>
+      <h4 class='ui header'><%= @task.name %></h4>
 
-    <div class='content'>
-      <span class='font-bold'>Owner: </span> <%= @task.owner.name %>
-    </div>
-
-    <div class='content'>
-      <span class='font-bold'>Notes: </span> <%= @task.notes %>
-    </div>
-
-    <% if @task.starts_at.present? %>
       <div class='content'>
-        <span class='font-bold'>Starts at: </span> <%= @task.starts_at %>
+        <span class='font-bold'>Owner: </span> <%= @task.owner.name %>
       </div>
-    <% end %>
 
-    <% if @task.completed_at.present? %>
       <div class='content'>
-        <span class='font-bold'>Completed at: </span> <%= @task.completed_at %>
+        <span class='font-bold'>Notes: </span> <%= @task.notes %>
       </div>
-    <% end %>
 
-    <% unless @task.completed? %>
-      <div class='mt-4'>
-        <%= link_to task_path(id: @task, task: { completed_at: Time.now }), method: :put, class: 'ui button' do %>
-          <i class='icon check'></i>
-          Mark as Completed
-        <% end %>
-      </div>
-    <% end %>
+      <% if @task.starts_at.present? %>
+        <div class='content'>
+          <span class='font-bold'>Starts at: </span> <%= @task.starts_at %>
+        </div>
+      <% end %>
+
+      <% if @task.completed_at.present? %>
+        <div class='content'>
+          <span class='font-bold'>Completed at: </span> <%= @task.completed_at %>
+        </div>
+      <% end %>
+
+      <% unless @task.completed? %>
+        <div class='mt-4'>
+          <%= link_to task_path(id: @task, task: { completed_at: Time.now }), method: :put, class: 'ui button' do %>
+            <i class='icon check'></i>
+            Mark as Completed
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
+
+  <h3 class="ui horizontal divider">Comments</h3>
+
+  <div class='ui comments' data-target='tasks.commentsBlock'>
+    <%= render @task.comments %>
+  </div>
+
+  <%= simple_form_for [@task, @task.comments.new], html: { class: 'ui form w-1/2 mt-2' } do |f| %>
+    <%= f.input  :body, wrapper_html: { class: 'field' }, label: 'Comment' %>
+
+    <%= f.submit 'Add Comment', class: 'ui primary button' %>
+  <% end %>
 </div>
-
-<h3 class="ui horizontal divider">Comments</h3>
-
-<div class='ui comments'>
-  <%= render @task.comments %><br/>
-</div>
-
-<%= simple_form_for [@task, @task.comments.new], html: { class: 'ui form w-1/2' } do |f| %>
-  <%= f.input  :body, wrapper_html: { class: 'field' }, label: 'Comment' %>
-
-  <%= f.submit 'Add Comment', class: 'ui primary button' %>
-<% end %>

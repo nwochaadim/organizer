@@ -9,6 +9,7 @@ class CommentsController < ApplicationController
     @comment = @task.comments.new(comment_params.merge(user_id: current_user.id))
 
     if @comment.save
+      ActionCable.server.broadcast("task_#{@task.id}", { comment: CommentSerializer.new(@comment).as_json })
       redirect_to @task, notice: 'Comment added successfully!'
     else
       render 'new'
