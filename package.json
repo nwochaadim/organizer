@@ -11,12 +11,12 @@
     "stimulus": "^2.0.0",
     "turbolinks": "^5.2.0",
     "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "postcss": "^7.0.36",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7",
     "webpack-dev-server": "^3.11.2"
   }
 }
