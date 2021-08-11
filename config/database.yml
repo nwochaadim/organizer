@@ -22,4 +22,6 @@ test:
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  database: organizer_production
+  username: organizer
+  password: <%= ENV['ORGANIZER_DATABASE_PASSWORD'] %>

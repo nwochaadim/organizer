@@ -13,7 +13,6 @@ gem 'ransack'
 gem 'sass-rails', '>= 6'
 gem 'shoulda-matchers'
 gem 'simple_form'
-gem 'sqlite3', '~> 1.4'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 
@@ -23,6 +22,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'
   gem 'pry-rails'
+  gem 'sqlite3', '~> 1.4'
 end
 
 group :development do
@@ -38,6 +38,10 @@ group :test do
   gem 'rspec-rails'
   gem 'selenium-webdriver'
   gem 'webdrivers'
+end
+
+group :production do
+  gem 'pg'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
