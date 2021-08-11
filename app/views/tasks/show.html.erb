@@ -1,14 +1,46 @@
-<h1><%= @task.name %> Task</h1>
+<div class='flex justify-center mb-10'>
+  <div class='ui piled segment w-1/2'>
+    <h4 class='ui header'><%= @task.name %></h4>
 
-<%= link_to 'Mark as Completed', task_path(id: @task, task: { completed_at: Time.now }), method: :put %>
+    <div class='content'>
+      <span class='font-bold'>Owner: </span> <%= @task.owner.name %>
+    </div>
 
+    <div class='content'>
+      <span class='font-bold'>Notes: </span> <%= @task.notes %>
+    </div>
 
-<h2>Comments</h2>
+    <% if @task.starts_at.present? %>
+      <div class='content'>
+        <span class='font-bold'>Starts at: </span> <%= @task.starts_at %>
+      </div>
+    <% end %>
 
-<%= render @task.comments %><br/>
+    <% if @task.completed_at.present? %>
+      <div class='content'>
+        <span class='font-bold'>Completed at: </span> <%= @task.completed_at %>
+      </div>
+    <% end %>
 
-<%= simple_form_for [@task, @task.comments.new] do |f| %>
-  <%= f.input  :body %>
+    <% unless @task.completed? %>
+      <div class='mt-4'>
+        <%= link_to task_path(id: @task, task: { completed_at: Time.now }), method: :put, class: 'ui button' do %>
+          <i class='icon check'></i>
+          Mark as Completed
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
 
-  <%= f.submit 'Add Comment' %>
+<h3 class="ui horizontal divider">Comments</h3>
+
+<div class='ui comments'>
+  <%= render @task.comments %><br/>
+</div>
+
+<%= simple_form_for [@task, @task.comments.new], html: { class: 'ui form w-1/2' } do |f| %>
+  <%= f.input  :body, wrapper_html: { class: 'field' }, label: 'Comment' %>
+
+  <%= f.submit 'Add Comment', class: 'ui primary button' %>
 <% end %>

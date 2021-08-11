@@ -11,4 +11,12 @@ class Task < ApplicationRecord
   def soft_delete
     update(deleted_at: Time.now)
   end
+
+  def owner
+    users.first
+  end
+
+  def completed?
+    completed_at.present?
+  end
 end

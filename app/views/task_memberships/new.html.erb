@@ -1,6 +1,7 @@
-<h1>Create Collaborator</h1>
+<h1 class='ui header'>Create Collaborator</h1>
 
-<%= simple_form_for [@task, @membership] do |f| %>
-  <%= f.association :user, collection: @collaborators, label_method: :email, value_method: :id, include_blank: false, label: 'Collaborator' %>
-  <%= f.submit 'Add Collaborator' %>
+<%= simple_form_for [@task, @membership], html: { class: 'ui form w-1/2' } do |f| %>
+
+  <%= f.association :user, collection: @collaborators, label_method: :email, value_method: :id, include_blank: false, label: 'Collaborator', wrapper_html: { class: 'field' } %>
+  <%= f.submit 'Add Collaborator', class: 'ui primary button' %>
 <% end %>

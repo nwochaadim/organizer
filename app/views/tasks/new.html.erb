@@ -1,9 +1,9 @@
-<h1>Add Task</h1>
+<h1 class='ui header'>Add Task</h1>
 
-<%= simple_form_for @task do |f| %>
-  <%= f.input :name %>
-  <%= f.input :notes, as: :text %>
-  <%= f.input :starts_at %>
+<%= simple_form_for @task, html: { class: 'ui form w-1/2' } do |f| %>
+  <%= f.input :name, wrapper_html: { class: 'field' } %>
+  <%= f.input :notes, as: :text, wrapper_html: { class: 'field' } %>
+  <%= f.datetime_field :starts_at, class: 'field', value: Time.now %>
 
-  <%= f.submit 'Add Task' %>
+  <%= f.submit 'Add Task', class: 'ui primary button' %>
 <% end %>
