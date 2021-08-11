@@ -2,21 +2,21 @@ import { Controller } from 'stimulus'
 import { createConsumer } from "@rails/actioncable"
 
 export default class extends Controller {
-  static targets = ['commentsBlock']
+  static targets = ['commentsBlock', 'taskId']
 
   initialize() {
     this.consumer = createConsumer();
   }
 
   connect() {
-    this.consumer.subscriptions.create({ channel: 'TaskChannel', task_id: 2 },
+    const taskId = this.taskIdTarget.value
+    this.consumer.subscriptions.create({ channel: 'TaskChannel', task_id: taskId },
       { received: this.onReceived }
     )
   }
 
   onReceived = (data) => {
     this.commentsBlockTarget.innerHTML += this.renderComment(data.comment)
-    console.log('received data', data);
   }
 
   renderComment(comment) {

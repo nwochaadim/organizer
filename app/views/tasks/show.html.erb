@@ -43,6 +43,8 @@
   <%= simple_form_for [@task, @task.comments.new], html: { class: 'ui form w-1/2 mt-2' } do |f| %>
     <%= f.input  :body, wrapper_html: { class: 'field' }, label: 'Comment' %>
 
+    <%= f.hidden_field :task_id, value: @task.id, data: { target: 'tasks.taskId' } %>
+
     <%= f.submit 'Add Comment', class: 'ui primary button' %>
   <% end %>
 </div>
